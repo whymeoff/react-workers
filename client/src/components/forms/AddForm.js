@@ -1,8 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-const AddForm = (props) => {
-    const renderError = ({ error, touched }) => {
+class AddForm extends React.PureComponent {
+    renderError = ({ error, touched }) => {
         if (touched && error) {
             return (
                 <div className="ui error message">
@@ -12,17 +12,17 @@ const AddForm = (props) => {
         }
     }
 
-    const renderInput = ({ input, label, meta }) => {
+    renderInput = ({ input, label, meta }) => {
         return (
             <div className="field">
                 <label>{label}</label>
                 <input { ...input } />
-                {renderError(meta)}
+                {this.renderError(meta)}
             </div>
         )
     }
 
-    const renderSelect = ({ input, label, meta }) => {
+    renderSelect = ({ input, label, meta }) => {
         return (
             <div className="field">
                 <label>{label}</label>
@@ -31,27 +31,29 @@ const AddForm = (props) => {
                     <option value="male" key={1}>Male</option>
                     <option value="female" key={2}>Female</option>
                 </select>
-                {renderError(meta)}
+                {this.renderError(meta)}
             </div>
         )
     }
 
-    const onSubmit = (formValues) => {
-        const { dispatch } = props
-        props.onAddSubmit(dispatch, formValues)
+    onSubmit = (formValues) => {
+        const { dispatch } = this.props
+        this.props.onAddSubmit(dispatch, formValues)
     }
 
-    return (
-        <form onSubmit={props.handleSubmit(onSubmit)} className="ui form error">
-            <Field name="fullname" component={renderInput} label="Enter fullname" />
-            <Field name="gender" component={renderSelect} label="Select gender" />
-            <Field name="phoneNumber" component={renderInput} label="Enter phone number" />
-            <Field name="salary" component={renderInput} label="Enter salary" />
-            <Field name="position" component={renderInput} label="Enter position" />
-            <button className="ui button primary">Add</button>
-            <button className="ui button" onClick={props.onChangeAction}>Back to list</button>
-        </form>
-    )
+    render() {
+        return (
+            <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
+                <Field name="fullname" component={this.renderInput} label="Enter fullname" />
+                <Field name="gender" component={this.renderSelect} label="Select gender" />
+                <Field name="phoneNumber" component={this.renderInput} label="Enter phone number" />
+                <Field name="salary" component={this.renderInput} label="Enter salary" />
+                <Field name="position" component={this.renderInput} label="Enter position" />
+                <button className="ui button primary">Add</button>
+                <button className="ui button" onClick={this.props.onChangeAction}>Back to list</button>
+            </form>
+        )
+    }
 }
 
 const validate = (formValue) => {
