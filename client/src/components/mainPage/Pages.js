@@ -14,7 +14,6 @@ const Pages = (props) => {
     }
 
     const renderPages = () => {
-        console.log(props.pages, props.currentPage)
         if (props.pages === 1 || props.pages === 0) {
             return <div></div>
         } else if (props.currentPage === props.pages) {

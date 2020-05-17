@@ -2,7 +2,7 @@ const { Employee } = require('../models/index')
 
 const getEmployees = async (req, res) => {
     const skip = (parseInt(req.query.page) > 1) ? req.query.page * 10 - 10 : 0
-    console.log
+
     const count = Employee.countDocuments({ fullname: { $regex: req.query.search } })
     const employees = Employee.find({ fullname: { $regex: req.query.search } })
         .skip(skip)
