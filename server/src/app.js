@@ -1,5 +1,4 @@
 require('dotenv').config()
-require('./db/mongoose')
 const express = require('express')
 const cors = require('cors')
 const passport = require('passport')
@@ -10,8 +9,6 @@ const initializePassport = require('./passportConfig')
 initializePassport(passport)
 
 const app = express()
-
-const PORT = process.env.PORT || 4000
 
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
 app.use(express.json())
@@ -32,6 +29,4 @@ app.use(passport.session())
 app.use('/users', require('./routers/user'))
 app.use('/employees', require('./routers/employee'))
 
-app.listen(PORT, () => {
-    console.log(`Server is up on port ${PORT}`)
-})
+module.exports = app

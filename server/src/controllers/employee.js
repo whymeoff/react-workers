@@ -22,7 +22,7 @@ const createEmployee = async (req, res) => {
 
     try {
         await employee.save()
-        res.send({ employee, err: null })
+        res.status(201).send({ employee, err: null })
     } catch (err) {
         res.status(400).send({ employee: null, err })
     }
