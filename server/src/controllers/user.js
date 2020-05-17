@@ -10,9 +10,9 @@ const registerUser = async (req, res) => {
 
     try {
         await user.save()
-        res.status(201).send({ err: null })
+        res.status(201).send({  err: null })
     } catch (err) {
-        res.status(400).send({ err })
+        res.status(400).send({  err })
     }
 }
 
