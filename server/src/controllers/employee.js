@@ -1,15 +1,24 @@
 const { Employee } = require('../models/index')
 
 const getEmployees = async (req, res) => {
-    const employees = await Employee.find()
+    const skip = (parseInt(req.query.page) > 1) ? req.query.page * 10 - 10 : 0
+    console.log
+    const count = Employee.countDocuments({ fullname: { $regex: req.query.search } })
+    const employees = Employee.find({ fullname: { $regex: req.query.search } })
+        .skip(skip)
+        .limit(10)
 
-    res.send({ employees })
+    const data = await Promise.all([count, employees])
+
+    const pages = Math.ceil(data[0]/10)
+
+    res.send({ employees: data[1], pages })
 }
 
 const createEmployee = async (req, res) => {
-    const { fullname, age, phoneNumber, salary, position } = req.body
+    const { fullname, phoneNumber, salary, position, gender } = req.body
 
-    const employee = new Employee({ fullname, age, phoneNumber, salary, position })
+    const employee = new Employee({ fullname, phoneNumber, salary, position, gender })
 
     try {
         await employee.save()
